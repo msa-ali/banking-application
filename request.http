@@ -6,5 +6,8 @@ Content-Type: application/xml
 GET http://localhost:8000/customers
 Content-Type: application/json
 
-### Greet
-GET http://localhost:8000/greet
+### Get all customers in JSON format
+GET http://localhost:8000/customers/123
+
+### Create a new customer
+POST http://localhost:8000/customers
