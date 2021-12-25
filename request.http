@@ -11,3 +11,6 @@ GET http://localhost:8000/customers/123
 
 ### Create a new customer
 POST http://localhost:8000/customers
+
+### Get current time
+GET http://localhost:8000/api/time?tz=America/New_York,Asia/Kolkata
