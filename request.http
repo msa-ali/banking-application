@@ -1,0 +1,10 @@
+### Get all customers in XML format
+GET http://localhost:8000/customers
+Content-Type: application/xml
+
+### Get all customers in JSON format
+GET http://localhost:8000/customers
+Content-Type: application/json
+
+### Greet
+GET http://localhost:8000/greet
