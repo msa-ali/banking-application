@@ -19,10 +19,8 @@ func Start() {
 	// ch := CustomerHandlers{service.NewCustomerService(domain.NewCustomerRepositoryStub())}
 	ch := CustomerHandlers{service.NewCustomerService(domain.NewCustomerRepositoryDb())}
 	router.HandleFunc("/customers", ch.GetAllCustomers).Methods(http.MethodGet)
-
 	router.HandleFunc("/greet", Greet).Methods(http.MethodGet)
-	router.HandleFunc("/customers/{customer_id:[0-9]+}", GetCustomer).Methods(http.MethodGet) // Only matches when customer id is numeric value otherwise 404 error
-
+	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.GetCustomer).Methods(http.MethodGet) // Only matches when customer id is numeric value otherwise 404 error
 	router.HandleFunc("/customers", CreateCustomer).Methods((http.MethodPost))
 
 	router.HandleFunc("/api/time", GetCurrentTime)

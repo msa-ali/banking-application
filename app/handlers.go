@@ -41,9 +41,19 @@ func (ch *CustomerHandlers) GetAllCustomers(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-func GetCustomer(w http.ResponseWriter, r *http.Request) {
+func (ch *CustomerHandlers) GetCustomer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	fmt.Fprint(w, vars["customer_id"])
+	customerId := vars["customer_id"]
+	customer, err := ch.service.GetCustomer(customerId)
+
+	if err != nil {
+		w.WriteHeader(err.Code)
+		fmt.Fprint(w, err.Message)
+	} else {
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(customer)
+	}
+
 }
 
 func CreateCustomer(w http.ResponseWriter, r *http.Request) {

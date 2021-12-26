@@ -7,7 +7,7 @@ GET http://localhost:8000/customers
 Content-Type: application/json
 
 ### Get all customers in JSON format
-GET http://localhost:8000/customers/123
+GET http://localhost:8000/customers/20001
 
 ### Create a new customer
 POST http://localhost:8000/customers
