@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"encoding/xml"
 	"fmt"
 	"net/http"
 	"strings"
@@ -21,18 +20,19 @@ func Greet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ch *CustomerHandlers) GetAllCustomers(w http.ResponseWriter, r *http.Request) {
-	// customers := []Customer{
-	// 	{Name: "Altamash", City: "Bangalore", Zipcode: "89248"},
-	// 	{Name: "Ahmad", City: "Delhi", Zipcode: "89248"},
-	// }
-	customers, _ := ch.service.GetAllCustomers()
-	if r.Header.Get("Content-Type") == "application/xml" {
-		w.Header().Add("Content-Type", "application/xml")
-		xml.NewEncoder(w).Encode(customers)
+	customers, err := ch.service.GetAllCustomers()
+	if err != nil {
+		writeResponse(w, err.Code, err.AsMesssage())
 	} else {
-		w.Header().Add("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customers)
+		writeResponse(w, http.StatusOK, customers)
 	}
+	// if r.Header.Get("Content-Type") == "application/xml" {
+	// 	w.Header().Add("Content-Type", "application/xml")
+	// 	xml.NewEncoder(w).Encode(customers)
+	// } else {
+	// 	w.Header().Add("Content-Type", "application/json")
+	// 	json.NewEncoder(w).Encode(customers)
+	// }
 }
 
 func (ch *CustomerHandlers) GetCustomer(w http.ResponseWriter, r *http.Request) {
