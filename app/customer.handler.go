@@ -20,7 +20,8 @@ func Greet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ch *CustomerHandlers) GetAllCustomers(w http.ResponseWriter, r *http.Request) {
-	customers, err := ch.service.GetAllCustomers()
+	status := r.URL.Query().Get("status")
+	customers, err := ch.service.GetAllCustomers(status)
 	if err != nil {
 		writeResponse(w, err.Code, err.AsMesssage())
 	} else {

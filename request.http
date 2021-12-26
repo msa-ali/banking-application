@@ -2,12 +2,20 @@
 GET http://localhost:8000/customers
 Content-Type: application/xml
 
+### Get all active customers in JSON format
+GET http://localhost:8000/customers?status=active
+Content-Type: application/json
+
+### Get all inactive customers in JSON format
+GET http://localhost:8000/customers?status=inactive
+Content-Type: application/json
+
 ### Get all customers in JSON format
 GET http://localhost:8000/customers
 Content-Type: application/json
 
 ### Get all customers in JSON format
-GET http://localhost:8000/customers/20001
+GET http://localhost:8000/customers/2000
 
 ### Create a new customer
 POST http://localhost:8000/customers
