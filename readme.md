@@ -10,3 +10,7 @@ RUN `go mod tidy`
 
 go build
 ./banking-application
+
+## Run MYSQL on docker
+```docker pull --platform linux/x86_64 mysql```
+```docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -d mysql```
