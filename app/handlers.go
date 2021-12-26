@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Altamashattari/banking-application/service"
 	"github.com/gorilla/mux"
 )
 
@@ -17,15 +18,20 @@ type Customer struct {
 	Zipcode string `json:"zip_code" xml:"zipcode"`
 }
 
+type CustomerHandlers struct {
+	service service.CustomerService
+}
+
 func Greet(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Hello World!!")
 }
 
-func GetAllCustomers(w http.ResponseWriter, r *http.Request) {
-	customers := []Customer{
-		{Name: "Altamash", City: "Bangalore", Zipcode: "89248"},
-		{Name: "Ahmad", City: "Delhi", Zipcode: "89248"},
-	}
+func (ch *CustomerHandlers) GetAllCustomers(w http.ResponseWriter, r *http.Request) {
+	// customers := []Customer{
+	// 	{Name: "Altamash", City: "Bangalore", Zipcode: "89248"},
+	// 	{Name: "Ahmad", City: "Delhi", Zipcode: "89248"},
+	// }
+	customers, _ := ch.service.GetAllCustomers()
 	if r.Header.Get("Content-Type") == "application/xml" {
 		w.Header().Add("Content-Type", "application/xml")
 		xml.NewEncoder(w).Encode(customers)
