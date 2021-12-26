@@ -5,8 +5,8 @@ import (
 )
 
 type AppError struct {
-	Code    int
-	Message string
+	Code    int    `json:",omitempty"`
+	Message string `json:"message"`
 }
 
 func NewNotFoundError(message string) *AppError {
@@ -21,4 +21,8 @@ func NewUnexpectedError(message string) *AppError {
 		Message: message,
 		Code:    http.StatusInternalServerError,
 	}
+}
+
+func (e AppError) AsMesssage() *AppError {
+	return &AppError{Message: e.Message}
 }
