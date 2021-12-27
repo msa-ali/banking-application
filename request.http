@@ -22,3 +22,20 @@ POST http://localhost:8000/customers
 
 ### Get current time
 GET http://localhost:8000/api/time?tz=America/New_York,Asia/Kolkata
+
+### Create a new account
+POST http://localhost:8000/customers/2000/account
+Content-Type: application/json
+
+{
+    "account_type": "saving",
+    "amount": 5000.23
+}
+
+POST http://localhost:8000/customers/2000/account/95470
+Content-Type: application/json
+
+{
+    "transaction_type": "deposit",
+    "amount": 1000
+}
