@@ -1,15 +1,26 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Altamashattari/banking-application/domain"
 	"github.com/Altamashattari/banking-application/service"
 	"github.com/gorilla/mux"
 )
 
+func sanityCheck() {
+	if os.Getenv("SERVER_ADDRESS") == "" ||
+		os.Getenv("SERVER_PORT") == "" {
+		log.Fatal("Environmnetal variables are not defined")
+	}
+}
+
 func Start() {
+
+	sanityCheck()
 
 	// mux := http.NewServeMux()
 	router := mux.NewRouter()
@@ -25,5 +36,7 @@ func Start() {
 
 	router.HandleFunc("/api/time", GetCurrentTime)
 	// starting server
-	log.Fatal(http.ListenAndServe("localhost:8000", router))
+	address := os.Getenv("SERVER_ADDRESS")
+	port := os.Getenv("SERVER_PORT")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", address, port), router))
 }
