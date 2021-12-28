@@ -17,10 +17,9 @@ type Account struct {
 }
 
 func (a Account) ToNewAccountResponseDto() *dto.NewAccountResponse {
-	return &dto.NewAccountResponse{a.AccountId}
+	return &dto.NewAccountResponse{AccountId: a.AccountId}
 }
 
-//go:generate mockgen -destination=../mocks/domain/mockAccountRepository.go -package=domain github.com/ashishjuyal/banking/domain AccountRepository
 type AccountRepository interface {
 	Save(account Account) (*Account, *errs.AppError)
 	SaveTransaction(transaction Transaction) (*Transaction, *errs.AppError)
@@ -28,10 +27,7 @@ type AccountRepository interface {
 }
 
 func (a Account) CanWithdraw(amount float64) bool {
-	if a.Amount < amount {
-		return false
-	}
-	return true
+	return a.Amount > amount
 }
 
 func NewAccount(customerId, accountType string, amount float64) Account {

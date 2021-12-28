@@ -13,10 +13,7 @@ type Transaction struct {
 }
 
 func (t Transaction) IsWithdrawal() bool {
-	if t.TransactionType == WITHDRAWAL {
-		return true
-	}
-	return false
+	return t.TransactionType == WITHDRAWAL
 }
 
 func (t Transaction) ToDto() dto.TransactionResponse {
