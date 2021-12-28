@@ -37,13 +37,23 @@ func Start() {
 	ch := CustomerHandlers{service.NewCustomerService(customerRepositoryDb)}
 	ah := AccountHandler{service.NewAccountService(accountRepositoryDb)}
 
-	router.HandleFunc("/customers", ch.GetAllCustomers).Methods(http.MethodGet)
-	router.HandleFunc("/greet", Greet).Methods(http.MethodGet)
-	router.HandleFunc("/customers/{customer_id:[0-9]+}", ch.GetCustomer).Methods(http.MethodGet) // Only matches when customer id is numeric value otherwise 404 error
+	router.
+		HandleFunc("/customers", ch.GetAllCustomers).
+		Methods(http.MethodGet).
+		Name("GetAllCustomers")
+
+	// router.HandleFunc("/greet", Greet).Methods(http.MethodGet)
+	router.
+		HandleFunc("/customers/{customer_id:[0-9]+}", ch.GetCustomer). // // Only matches when customer id is numeric value otherwise 404 error
+		Methods(http.MethodGet).
+		Name("GetCustomer")
 	router.HandleFunc("/customers", CreateCustomer).Methods((http.MethodPost))
 
 	// account
-	router.HandleFunc("/customers/{customer_id:[0-9]+}/account", ah.NewAccount).Methods(http.MethodPost)
+	router.
+		HandleFunc("/customers/{customer_id:[0-9]+}/account", ah.NewAccount).
+		Methods(http.MethodPost).
+		Name("NewAccount")
 
 	router.
 		HandleFunc("/customers/{customer_id:[0-9]+}/account/{account_id:[0-9]+}", ah.MakeTransaction).
@@ -51,6 +61,16 @@ func Start() {
 		Name("NewTransaction")
 
 	router.HandleFunc("/api/time", GetCurrentTime)
+
+	am := AuthMiddleware{domain.NewAuthRepository()}
+	router.Use(am.authorizationHandler())
+	// router.Use(func(next http.Handler) http.Handler {
+	// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	// 		//before
+	// 		next.ServeHTTP(w, r)
+	// 		// after
+	// 	})
+	// })
 	// starting server
 	address := os.Getenv("SERVER_ADDRESS")
 	port := os.Getenv("SERVER_PORT")

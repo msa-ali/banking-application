@@ -37,3 +37,19 @@ go build
 - withdrawal amount should be available in the account
 - successful transaction, should return the updated balance with transaction id response
 - error handling should be done for the bad request and unexpected errors from the server side and should return the appropriate http status code with message
+
+## Authorization
+
+### ADMIN USER
+
+- GET ALL CUSTOMERS     GET /customer
+- GET CUSTOMER BY ID    GET /customer/{customer_id}
+- CREATE NEW ACCOUNT    POST /customer/{customer_id}/account
+- MAKE A TRANSACTION    POST /customer/{customer_id}/account/{account_id}
+
+## USER ROLE
+
+- GET CUSTOMER BY ID    GET /customer/{customer_id}
+- MAKE A TRANSACTION    POST /customer/{customer_id}/account/{account_id}
+
+SERVER_ADDRESS=localhost SERVER_PORT=8000 DB_USER=root DB_PASSWD=password DB_ADDR=localhost DB_PORT=3306 DB_NAME=banking go run main.go
